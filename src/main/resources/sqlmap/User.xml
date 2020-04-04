@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 命名空间，方便对sql进行统一管理。 -->
+<mapper namespace="usermapper">
+
+    <!-- mapper.xml下面封装多个sql，执行每个sql时都封装为MappedStatement对象。mapper.xml以statement为单位管理sql语句 -->
+    <!--
+        id：statement的唯一标识
+        #{}：表示一个占位符。当输入类型为简单类型时，里面名称任意
+        parameterType：输入参数的类型
+        resultType：输出结果的类型（list和单条都是单个po类型）
+    -->
+    <select id="findUserById" parameterType="int" resultType="cn.adoredu.mybatis.po.User">
+        SELECT * FROM user WHERE id = ${value}
+    </select>
+
+    <select id="findUserByName" parameterType="java.lang.String" resultType="cn.adoredu.mybatis.po.User">
+        SELECT * FROM user WHERE username like '%${value}%'
+    </select>
+
+    <!--
+        #{username}表示从parameterType中获取pojo属性值（OGNL解析），这里使用${}也可以
+        selectKey：用于主键返回
+        order：设置selectKey中sql相对于insert语句的执行顺序
+        keyProperty：主键字段
+        resultType：select LAST_INSERT_ID()的类型
+    -->
+    <insert id="insertUser" parameterType="cn.adoredu.mybatis.po.User">
+        <selectKey keyProperty="id" order="AFTER" resultType="int">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO user(username, birthday, sex, address) VALUES(#{username}, #{birthday}, #{sex}, #{address})
+    </insert>
+
+    <!-- 使用uuid主键的插入方式-->
+    <!--
+    <insert id="insertUser" parameterType="cn.adoredu.mybatis.po.User">
+        <selectKey keyProperty="id" order="BEFORE" resultType="String">
+            SELECT uuid()
+        </selectKey>
+        INSERT INTO user(id,username,birthday,sex,address) VALUES (#{id}, #{username}, #{birthday}, #{sex}, #{address})
+    </insert>
+    -->
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+
+    <!-- 传入的User对象必须包含id属性 -->
+    <update id="updateUser" parameterType="cn.adoredu.mybatis.po.User">
+        UPDATE user SET username=#{username}, birthday=#{birthday}, sex=#{sex}, address=#{address} WHERE id=#{id}
+    </update>
+
+</mapper>
