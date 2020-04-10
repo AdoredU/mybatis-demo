@@ -15,6 +15,10 @@ public class Orders implements Serializable {
 
     private String note;
 
+    private User user;
+
+    private List<OrderDetail> orderDetailList;
+
     public Integer getId() {
         return id;
     }
@@ -55,4 +59,19 @@ public class Orders implements Serializable {
         this.note = note == null ? null : note.trim();
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<OrderDetail> getOrderDetailList() {
+        return orderDetailList;
+    }
+
+    public void setOrderDetailList(List<OrderDetail> orderDetailList) {
+        this.orderDetailList = orderDetailList;
+    }
 }

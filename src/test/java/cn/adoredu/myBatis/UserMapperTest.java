@@ -73,4 +73,15 @@ public class UserMapperTest {
         sqlSession.commit();
         sqlSession.close();
     }
+
+    @Test
+    public void testCache() throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSession sqlSession2 = sqlSessionFactory.openSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        UserMapper mapper = sqlSession2.getMapper(UserMapper.class);
+        User user = userMapper.findUserById(1);
+        User user1 = mapper.findUserById(1);
+//        User user2 = userMapper.findUserById(2);
+    }
 }

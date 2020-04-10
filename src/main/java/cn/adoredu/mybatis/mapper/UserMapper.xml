@@ -5,6 +5,8 @@
 
 <mapper namespace="cn.adoredu.mybatis.mapper.UserMapper">
 
+    <cache flushInterval="120000"/>
+
     <sql id="query_user_where">
         <if test="user!=null">
             <if test="user.username != null and user.username != ''">

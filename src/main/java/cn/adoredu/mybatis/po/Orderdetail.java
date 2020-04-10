@@ -2,7 +2,7 @@ package cn.adoredu.mybatis.po;
 
 import java.io.Serializable;
 
-public class Orderdetail implements Serializable {
+public class OrderDetail implements Serializable {
     private Integer id;
 
     private Integer ordersId;
